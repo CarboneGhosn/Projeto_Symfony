@@ -1,0 +1,254 @@
+ <!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Minha Loja Online</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<header>
+		<nav>
+			<ul>
+				<li><a href="#home">Home</a></li>
+				<li><a href="#produtos">Produtos</a></li>
+				<li><a href="#contato">Contato</a></li>
+				<li><a href="#outro">Outra aba</a></li>
+			</ul>
+		</nav>
+		<h1>Minha Loja Online</h1>
+	</header>
+	
+	<main>
+		<section id="home">
+			<h2>Bem-vindo à Minha Loja Online</h2>
+			<p>Esta loja oferece uma ampla variedade de produtos para atender às suas necessidades. Explore nossas ofertas e faça suas compras agora mesmo!</p>
+		</section>
+		
+		<section id="produtos">
+			<h2>Nossos produtos</h2>
+			<div class="produto">
+				<img src="produto1.jpg" alt="Produto 1">
+				<h3>Produto 1</h3>
+				<p>Descrição do Produto 1.</p>
+			</div>
+			<div class="produto">
+				<img src="produto2.jpg" alt="Produto 2">
+				<h3>Produto 2</h3>
+				<p>Descrição do Produto 2.</p>
+			</div>
+			<div class="produto">
+				<img src="produto3.jpg" alt="Produto 3">
+				<h3>Produto 3</h3>
+				<p>Descrição do Produto 3.</p>
+			</div>
+		</section>
+		
+		<section id="contato">
+			<h2>Entre em contato</h2>
+			<form>
+				<label for="nome">Nome:</label>
+				<input type="text" id="nome" name="nome" required>
+				<label for="email">Email:</label>
+				<input type="email" id="email" name="email" required>
+				<label for="mensagem">Mensagem:</label>
+				<textarea id="mensagem" name="mensagem" required></textarea>
+				<button type="submit">Enviar</button>
+        
+			</form>
+		</section>
+		
+		<section id="outro">
+			<h2>Outra aba</h2>
+			<p>Esta é uma outra aba que você pode personalizar de acordo com suas necessidades.</p>
+            <div id="map"></div>
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/handlebars/4.7.7/handlebars.min.js"></script>
+            <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+            <script>
+            function initMap() {
+                // Cria um objeto LatLng com as coordenadas da sua localização
+                var minhaLocalizacao = {lat: -23.5630557, lng: -46.6530973};
+              
+                // Cria um objeto do mapa
+                var map = new google.maps.Map(document.getElementById('map'), {
+                  zoom: 15, // Zoom inicial
+                  center: minhaLocalizacao // Centro do mapa
+                });
+              
+                // Adiciona um marcador com as suas coordenadas
+                var marker = new google.maps.Marker({
+                  position: minhaLocalizacao,
+                  map: map,
+                  title: "Rua Almirante Custódio de Melo, 8"
+                });
+              }
+              
+              // Carrega a API do Google Maps
+              function carregarMaps() {
+                var script = document.createElement('script');
+                script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyD-6bRNHYQ9QuLsq-jq1xA7KOh72lBZWnE&callback=initMap";
+                script.defer = true;
+                script.async = true;
+              
+                document.body.appendChild(script);
+              }
+              
+              // Chama a função carregarMaps quando a página carrega
+              window.onload = carregarMaps;
+              
+
+</script>
+
+		</section>
+	</main>
+	
+	<footer>
+		<p>&copy; 2023 Minha Loja Online. Todos os direitos reservados.</p>
+	</footer>
+	
+	<script src="script.js"></script>
+</body>
+</html>
+<style>
+* {
+	box-sizing: border-box;
+}
+
+body {
+  
+  background: rgb(255, 255, 255);
+}
+
+
+
+header {
+	background-color: #ffffff;
+	
+	padding: 20px;
+    box-shadow:left #211e1e;
+    border-radius: 20px;
+}
+
+h1 {
+	margin: 0;
+}
+
+nav ul {
+    list-style: none;
+padding: 0;
+margin: 0;
+text-align: center;
+}
+
+nav li {
+display: inline-block;
+
+}
+
+nav a {
+color: #000000;
+text-decoration: none;
+margin-right: 20px;
+}
+
+nav a:hover {
+text-decoration: underline;
+}
+
+main {
+max-width: 960px;
+margin: 0 auto;
+padding: 20px;
+}
+
+section {
+margin-bottom: 40px;
+}
+
+section h2 {
+margin-top: 0;
+}
+
+.produto {
+border: 1px solid #ccc;
+padding: 10px;
+margin-bottom: 20px;
+}
+
+.produto img {
+max-width: 100%;
+}
+
+form label {
+display: block;
+margin-bottom: 10px;
+}
+
+form input,
+form textarea {
+display: block;
+margin-bottom: 20px;
+padding: 10px;
+border: 1px solid #ccc;
+width: 100%;
+}
+
+form button {
+background-color: #333;
+color: #fff;
+border: none;
+padding: 10px 20px;
+cursor: pointer;
+}
+
+form button:hover {
+background-color: #555;
+}
+
+footer {
+
+padding: 20px;
+text-align: center;
+}
+#map {
+  width: 100%;
+  height: 400px;
+}
+
+
+@media screen and (max-width: 600px) 
+{
+nav ul {
+display: block;
+margin: 10px 0;
+}
+nav li {
+	display: block;
+	margin: 0;
+}
+
+form input,
+form textarea {
+	width: 100%;
+}
+}
+</style>
+<script>// Exemplo de código JavaScript para adicionar uma classe ativa à aba selecionada
+
+    const links = document.querySelectorAll('nav a');
+    const sections = document.querySelectorAll('section');
+    
+    links.forEach(link => {
+        link.addEventListener('click', () => {
+            links.forEach(link => link.classList.remove('ativo'));
+            link.classList.add('ativo');
+            const target = link.getAttribute('href');
+            sections.forEach(section => {
+                section.classList.remove('ativo');
+                if (section.getAttribute('id') === target.slice(1)) {
+                    section.classList.add('ativo');
+                }
+            });
+        });
+    });
+    </script>

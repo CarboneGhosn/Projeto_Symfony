@@ -1,0 +1,7 @@
+controllers:
+    resource: ../src/Controller/
+    type: attribute
+
+app_clientes:
+    path: /
+    controller: App/Controller/Admin/ClientesCrudController::index
