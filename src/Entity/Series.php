@@ -2,26 +2,29 @@
 
 namespace App\Entity;
 
-use App\Repository\TimeRepository;
+use App\Repository\SeriesRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TimeRepository::class)]
-class Time
+#[ORM\Entity(repositoryClass: SeriesRepository::class)]
+class Series
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    public function __construct(
+        #[ORM\Column]
+        private string $name
+    ) {
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
