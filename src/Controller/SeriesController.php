@@ -12,8 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SeriesController extends AbstractController
 {
-    public function __construct(private SeriesRepository $seriesRepository)
+    public function __construct(private SeriesRepository $seriesRepository, )
     {
+        $this->seriesRepository = $seriesRepository;
     }
 
     #[Route('/series', name: 'app_series', methods: ['GET'])]
@@ -39,7 +40,7 @@ class SeriesController extends AbstractController
         $series = new Series($seriesName);
 
         $this->seriesRepository->add($series, flush:true);
-        return new RedirectResponse(url:'/series');
+        return new RedirectResponse(url:'/Projeto_Symfony/public/series');
     }
 }
  
