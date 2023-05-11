@@ -27,7 +27,7 @@ class SeriesController extends AbstractController
         ]);
     }
 
-    #[Route('Projeto_Symfony/public/series/create', methods: ['GET'])]
+    #[Route('Projeto_Symfony/public/series/create', name:'app_series_form', methods: ['GET'])]
     public function addSeriesForm(): Response
     {
         return $this->render(view:'series/form.html.twig');
