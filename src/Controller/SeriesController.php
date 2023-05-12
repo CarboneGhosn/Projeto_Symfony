@@ -44,12 +44,10 @@ class SeriesController extends AbstractController
         return new RedirectResponse(url:'/Projeto_Symfony/public/series');
     }
 
-    #[Route('Projeto_Symfony/public/series/delete')]
-    public function deleteSeries(Request $request): Response
+    #[Route('Projeto_Symfony/public/series/delete/{id}', methods: ['POST'])]
+    public function deleteSeries(int $id): Response
     {
-        $id = $request->query->get(key:'id');
-        $series = $this->entityManager->getPartialReference(Series::class, $id);
-        $this->seriesRepository->remove($series, flush:true);
+        $this->seriesRepository->removeById($id);
 
         return new RedirectResponse(url:'/Projeto_Symfony/public/series');
     }

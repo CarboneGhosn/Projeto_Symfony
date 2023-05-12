@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 use App\Entity\Series;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,6 +46,12 @@ class SeriesRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function removeById(int $id): void
+    {
+        $series = $this->getEntityManager()->getPartialReference(Series::class, $id);
+        $this->remove($series ,flush:true);
+    }
+    }
 //    /**
 //     * @return Series[] Returns an array of Series objects
 //     */
@@ -70,5 +75,4 @@ class SeriesRepository extends ServiceEntityRepository
 //            ->getQuery()
 //            ->getOneOrNullResult()
 //        ;
-//    }
-}
+//    };
