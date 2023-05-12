@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 use App\Entity\Series;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

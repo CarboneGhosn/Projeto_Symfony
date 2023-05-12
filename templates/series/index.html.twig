@@ -9,7 +9,7 @@
     {% for series in seriesList %}
                 <li class="lis-group-item d-flex justify-content-between align-items-center" >
                 {{ series.name }}
-                <form method="POST">
+                <form method="POST" action='Projeto_Symfony/public/series/delete?id={{ series.id }}'>
                     <button class="btn btn-sm btn-danger">
                      X
                 </button>
