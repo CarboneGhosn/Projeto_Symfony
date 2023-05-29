@@ -3,6 +3,10 @@
 {% block title %}Listagem de series!{% endblock %}
 
 {% block body %}
+    <div class="alert alert-success">
+        {{successMessage}}
+    </div>
+
 <a href="{{ path('app_series_form') }}" class="btn btn-dark mb-3">Adicionar</a>
 
 <ul class="list-group">
@@ -10,13 +14,19 @@
                 <li class="lis-group-item d-flex justify-content-between align-items-center" >
                 {{ series.name }}
 
+                    <div class="d-flex">
+                         <a href="{{ path('app_edit_series_form', {series: series.id}) }}" class="btn btn-sm btn-primary me-2">
+                            E
+                        </a>
+
                         <form method="post" action='Projeto_Symfony/public/series/delete/{{ series.id }}'>
                             <iput type"hidden" name="_method" value="DELETE">
                            
                             <button class="btn btn-sm btn-danger">
                             X
-                        </button>
-                    </form>
+                            </button>
+                        </form>
+                    </div>
                 </li>
             {% endfor %}
         </ul>

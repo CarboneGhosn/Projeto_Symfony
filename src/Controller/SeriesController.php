@@ -19,12 +19,16 @@ class SeriesController extends AbstractController
     }
 
     #[Route('/series', name: 'app_series', methods: ['GET'])]
-    public function seriesList(): Response
+    public function seriesList(Request $request): Response
     {
         $seriesList = $this->seriesRepository->findAll();
-
+        $session = $request->getSession();
+        $successMessage = $session->get(name:'success');
+        $session->remove(name:'success');
+       
         return $this->render('series/index.html.twig', [
             'seriesList' => $seriesList,
+            'successMessage' => $successMessage,
         ]);
     }
 
@@ -39,17 +43,34 @@ class SeriesController extends AbstractController
     {
         $seriesName = $request->request->get(key:'name');
         $series = new Series($seriesName);
-
+        $request->getSession()->set('success', "Série \"{$seriesName}\"adicionada com sucesso");
+        
         $this->seriesRepository->add($series, flush:true);
         return new RedirectResponse(url:'/Projeto_Symfony/public/series');
     }
 
     #[Route('Projeto_Symfony/public/series/delete/{id}', methods: ['POST'])]
-    public function deleteSeries(int $id): Response
+    public function deleteSeries(int $id, Request $request): Response
     {
         $this->seriesRepository->removeById($id);
-
+        $session = $request->getSession();
+        $session->set('success', 'Série deletada com sucesso');
         return new RedirectResponse(url:'/Projeto_Symfony/public/series');
     }
+    #[Route('Projeto_Symfony/public/series/edit/{series}', name: 'app_edit_series_form', methods: ['GET'])]
+    public function editSeriesForm(Series $series): Response 
+    {
+        return $this->render('series/form.html.twig', [
+            'series' => $series,
+        ]);
+           
+    }
+
+    #[Route('Projeto_Symfony/public/series/edit/{series}', name: 'app_store_series_changes', methods: ['PATCH'])]
+    public function storeSeriesChanges(): Response 
+    {
+        $request->getSession()->set('success', "Série editada com sucesso");
+
+        return new RedirectResponse('/series');
+    }
 }
- 
