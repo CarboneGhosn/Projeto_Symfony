@@ -3,11 +3,21 @@
 {% block title %}{{ series is defined ? 'Editar' : 'Nova' }} Série{% endblock %}
 
 {% block body %}
-    <form method="post" {{ series is defined ? path('') : path('app_add_series')}}>
+    <form method="post" 
+            action="{{ series is defined ? path('app_store_series_changes', {series: series.id}) : path('app_add_series') }}">
         <div class="mb-3">
             <label for="name" class="form-label">Nome da série:</label>
-            <input type="text" name="name" id="name" class="form-control" value="{{ series is defined ? series.name : '' }}">
+            <input type="text" 
+                    name="name" 
+                    id="name" 
+                    class="form-control" 
+                    value="{{ series is defined ? series.name : '' }}">
         </div>
+
+        {% if series is defined %}
+            <input type="hidden" name="_method" value="PATCH">
+        {% endif %}
+
 
         <button class="btn btn-dark">
     
