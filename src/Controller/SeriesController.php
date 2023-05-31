@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Series;
+use App\Form\SeriesType;
 use App\Repository\SeriesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,15 +33,19 @@ class SeriesController extends AbstractController
     #[Route('Projeto_Symfony/public/series/create', name:'app_series_form', methods: ['GET'])]
     public function addSeriesForm(): Response
     {
-        return $this->render(view:'series/form.html.twig');
+        $seriesForm = $this->createForm(SeriesType::class, new Series(''));
+        return $this->renderForm('series/form.html.twig', compact(var_name: 'seriesForm'));
     }
 
     #[Route('Projeto_Symfony/public/series/create',name:'app_add_series', methods: ['POST'])]
     public function addSeries(Request $request): Response
     {
-        $seriesName = $request->request->get(key:'name');
-        $series = new Series($seriesName);
-        $this->addFlash('success', "Série \"{$seriesName}\" adicionada com sucesso");
+        $series = new Series();
+        $this->createForm(SeriesType::class, $series)
+        ->handleRequest($request);
+        
+        $this->addFlash('success', 
+        "Série \"{$series->getName()}\" adicionada com sucesso");
         
         $this->seriesRepository->add($series, flush:true);
         return new RedirectResponse(url:'/Projeto_Symfony/public/series');
