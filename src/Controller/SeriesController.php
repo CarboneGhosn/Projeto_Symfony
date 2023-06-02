@@ -33,7 +33,9 @@ class SeriesController extends AbstractController
     #[Route('Projeto_Symfony/public/series/create', name:'app_series_form', methods: ['GET'])]
     public function addSeriesForm(): Response
     {
+        $series= new Series();
         $seriesForm = $this->createForm(SeriesType::class, new Series(''));
+          
         return $this->renderForm('series/form.html.twig', compact(var_name: 'seriesForm'));
     }
 
@@ -41,9 +43,13 @@ class SeriesController extends AbstractController
     public function addSeries(Request $request): Response
     {
         $series = new Series();
-        $this->createForm(SeriesType::class, $series)
+        $seriesForm = $this->createForm(SeriesType::class, $series)
         ->handleRequest($request);
-        
+
+        if (!$seriesForm->isValid()) {
+            return $this->renderForm('series/form.html.twig', compact(var_name: 'seriesForm'));
+        }
+
         $this->addFlash('success', 
         "Série \"{$series->getName()}\" adicionada com sucesso");
         
@@ -54,22 +60,30 @@ class SeriesController extends AbstractController
     #[Route('Projeto_Symfony/public/series/delete/{id}', methods: ['POST'])]
     public function deleteSeries(int $id, Request $request): Response
     {
+        
         $this->seriesRepository->removeById($id);
-        $this->addFlash('success', 'Série removida com sucesso');
+        $this->addFlash('success', "Série removida com sucesso");
         
         return new RedirectResponse(url:'/Projeto_Symfony/public/series');
     }
     #[Route('Projeto_Symfony/public/series/edit/{series}', name: 'app_edit_series_form', methods: ['GET'])]
     public function editSeriesForm(Series $series): Response 
     {
-        return $this->render('series/form.html.twig', ['series' => $series,]);
+        $seriesForm = $this->createForm(SeriesType::class, $series, ['is_edit' => true]);
+        return $this->renderForm('series/form.html.twig', compact('seriesForm', 'series'));
            
     }
 
     #[Route('Projeto_Symfony/public/series/edit/{series}', name: 'app_store_series_changes', methods: ['PATCH'])]
     public function storeSeriesChanges(Series $series, Request $request): Response 
     {
-        $series->setName($request->request->get('name'));
+        $seriesForm = $this->createForm(SeriesType::class, $series, ['is_edit' => true]);
+        $seriesForm->handleRequest($request);
+
+        if (!$seriesForm->isValid()) {
+            return $this->renderForm('series/form.html.twig', compact('seriesForm', 'series'));
+        }
+
         $this->addFlash('success', "Série \"{$series->getName()}\" editada com sucesso");
         $this->entityManager->flush();
 
