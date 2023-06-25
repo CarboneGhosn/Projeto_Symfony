@@ -6,8 +6,10 @@ namespace App\Controller;
 use App\Entity\Series;
 use App\Entity\Season;
 use App\Entity\Episode;
+use App\Repository\SeriesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -17,7 +19,7 @@ class SeasonsController extends AbstractController
 {
    public function __construct(private CacheInterface $cache)
    {
-
+        $this->seriesRepository = new SeriesRepository;
    }
 
 
@@ -43,4 +45,5 @@ class SeasonsController extends AbstractController
             'seasons' => $seasons,
         ]);
     }
+
 }
