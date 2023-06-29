@@ -2,12 +2,17 @@
 
 namespace App\Controller;
 
+use App\DTO\SeriesCreateFromInput;
 use App\Entity\Series;
+use App\Entity\Season;
+use App\Entity\Episode;
 use App\Form\SeriesType;
 use App\Repository\SeriesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,21 +38,29 @@ class SeriesController extends AbstractController
     #[Route('Projeto_Symfony/public/series/create', name:'app_series_form', methods: ['GET'])]
     public function addSeriesForm(): Response
     {
-        $series= new Series();
-        $seriesForm = $this->createForm(SeriesType::class, new Series(''));
-          
+        
+        $seriesForm = $this->createForm(SeriesType::class, new SeriesCreateFromInput());
         return $this->renderForm('series/form.html.twig', compact(var_name: 'seriesForm'));
     }
 
     #[Route('Projeto_Symfony/public/series/create',name:'app_add_series', methods: ['POST'])]
     public function addSeries(Request $request): Response
     {
-        $series = new Series();
-        $seriesForm = $this->createForm(SeriesType::class, $series)
+        $input = new SeriesCreatefromInput();
+        $seriesForm = $this->createForm(SeriesType::class, $input)
         ->handleRequest($request);
 
         if (!$seriesForm->isValid()) {
             return $this->renderForm('series/form.html.twig', compact(var_name: 'seriesForm'));
+        }
+
+        $series = new Series($input->seriesName);
+        for ($i = 1; $i < $input->seasonsQuantity; $i++) {
+          $season = new Season($i);
+         for ($j = 1;$j <= $input->episodesPerSeason;$j++) {
+            $season->addEpisode(new Episode($j));
+         }
+          $series->addSeason($season);
         }
 
         $this->addFlash('success', 
