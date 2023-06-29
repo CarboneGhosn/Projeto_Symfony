@@ -19,7 +19,7 @@ class SeasonsController extends AbstractController
 {
    public function __construct(private CacheInterface $cache)
    {
-        $this->seriesRepository = new SeriesRepository;
+        
    }
 
 

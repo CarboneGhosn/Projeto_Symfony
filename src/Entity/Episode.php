@@ -14,8 +14,11 @@ class Episode
     private int $id;
 
     #[ORM\ManyToOne(targetEntity: Season::class, inversedBy: 'episodes')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn]
     private Season $season;
+
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private ?bool $watched;
 
     public function __construct(
         #[ORM\Column(type: 'smallint')]
@@ -48,6 +51,18 @@ class Episode
     public function setSeason(?Season $season): self
     {
         $this->season = $season;
+
+        return $this;
+    }
+
+    public function isWatched(): ?bool
+    {
+        return $this->watched;
+    }
+
+    public function setWatched(bool $watched): self
+    {
+        $this->watched = $watched;
 
         return $this;
     }

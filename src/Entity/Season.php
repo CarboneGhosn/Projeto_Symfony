@@ -24,7 +24,7 @@ class Season
     private Collection $episodes;
 
     #[ORM\ManyToOne(targetEntity: Series::class, inversedBy: 'seasons')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false,onDelete: 'CASCADE')]
     private Series $series;
 
     public function __construct(
@@ -57,6 +57,11 @@ class Season
     public function getEpisodes(): Collection
     {
         return $this->episodes;
+    }
+
+    public function getWatchedEpisodes(): Collection
+    {
+        return $this->episodes->filter(fn (Episode $episode) => $episode->isWatched());
     }
 
     public function addEpisode(Episode $episode): self
